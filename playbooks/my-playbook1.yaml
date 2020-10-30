@@ -1,0 +1,11 @@
+---
+- name: My simple playbook 
+  hosts: localhost              #to install for multiple virtual machines
+  become: true                  #become a root user
+  become_method: sudo 
+  tasks: 
+  - name: Install packages 
+    package: 
+      name: httpd
+      state: installed
+
