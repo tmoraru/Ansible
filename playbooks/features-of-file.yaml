@@ -1,0 +1,29 @@
+#List of users
+user:
+- bob
+- john
+- tom
+
+#create a dictionary 
+
+user:
+  name: bob
+  job: engineer
+  salary: 10.000
+
+#Including new line using  | character 
+
+include_newlines: 
+  type some text
+  type some text again
+  add more and more text 
+
+fold_newlines: > #for significant text into playbook, folder special characters 
+  type some text
+  more text
+  and again more text 
+
+become: yes #or no # the same thing as the TRUE or FALSE
+
+version: "1.0" 
+
