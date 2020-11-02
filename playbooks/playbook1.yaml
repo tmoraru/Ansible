@@ -1,0 +1,67 @@
+
+# Your supervisor has asked you to find a way to automate and audit basic system configuration for new servers in your environment. 
+#Given that Ansible is already configured at a basic level in your environment, 
+#the simplest solution would be to just write a playbook for bootstrapping your new hosts. 
+#Create a playbook called /home/ansible/bootstrap.yml to fulfill the following boot strap requirements:
+
+#All servers:
+
+#Edit /etc/hosts to include the following entry:
+#ansible.xyzcorp.com  169.168.0.1
+#Install elinks
+#Create the user xyzcorp_audit
+#Copy the files /home/ansible/motd and /home/ansible/issue to /etc/
+#Network servers:
+
+#Install nmap-ncat
+#Create the user xyzcorp_network
+#SysAdmin servers:
+
+#Copy /home/ansible/scripts.tgz from the control node to /mnt/storage
+#The Ansible control node has been configured for you and each testing server has already been configured for use with Ansible.
+#The default inventory has been configured to include a the groups network and sysadmin. Each group includes a sample host.
+
+--- 
+- hosts: all 
+  become: yes
+  tasks:
+    - name: Edit the file
+      lineinfile:
+        path: /etc/hosts
+        line: "  169.168.0.1 ansible.xyzcorp.com "
+    - name: Install Elinks
+      package:
+        name: elinks
+        state: latest
+    - name: Create audit user
+      user:
+        name: xyzcorp_audit
+        state: latest
+    - name: Copy motd file to the /etc/
+      copy: 
+        src: /home/ansible/motd
+        dest: /etc/motd
+    - name: Copy issue file to /etc/
+      copy:
+        src: /home/ansible/issue 
+        dest: /etc/issue
+    
+- hosts: netwoork
+  become: yes
+  tasks:
+    - name: Install nmap-ncat
+      yum: 
+        name: nmap-ncat
+        state: latest
+    - name: Create a user
+      user: 
+        name: xyzcorp_network
+        state: latest
+
+- hosts: sysadmin
+  become: yes
+  tasks: 
+    - name: copy tarball
+      copy: 
+        src: /home/ansible/scripts.tgz
+        dest: /mnt/storage
