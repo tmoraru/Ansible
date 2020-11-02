@@ -1,0 +1,15 @@
+--- 
+# play example
+- hosts: localhost 
+  become: yes
+  tasks: 
+    - name: install software
+      yum: #yum module to install packages
+        name: elinks
+        state: latest
+    
+    - name: install more software 
+      yum:
+        name: nmap-ncat
+        state: latest
+
