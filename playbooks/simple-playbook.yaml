@@ -1,0 +1,26 @@
+---
+- hosts: appservers
+  gather_facts: no
+  become: yes
+
+  tasks:
+  - name: Ensure appache is at the latest version
+    yum: name=httpd state=lates      #yum module
+    async: 300 
+    poll: 5
+  - name: Write the appache config file
+    template: src=/src/httpd.j2 dest=/etc/httpd.conf 
+
+- hosts: databases
+  become: yes
+
+  tasks: 
+  - name: Ensure postgresql is at the latest version
+    yum:
+      name: postgresql 
+      state: latest
+
+  - name: Ensure that postgresql is started
+    service: 
+      name: postgresql 
+      state: started 
